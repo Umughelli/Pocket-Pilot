@@ -564,7 +564,7 @@ function createAppShell() {
           <span class="nav-label">Dashboard</span>
         </a>
         <a href="#/transactions" class="nav-item" data-route="transactions" data-label="Transactions">
-          <span class="nav-icon" aria-hidden="true">☰</span>
+          <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="14" height="16" rx="2" stroke="currentColor"/><line x1="3" y1="5.5" x2="17" y2="5.5" stroke="currentColor" stroke-width="1" stroke-dasharray="1.5 1.2"/><line x1="6" y1="9.5" x2="14" y2="9.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="6" y1="12.5" x2="11" y2="12.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="6" y1="15.5" x2="14" y2="15.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
           <span class="nav-label">Transactions</span>
         </a>
         <a href="#/reports" class="nav-item" data-route="reports" data-label="Reports">
@@ -622,7 +622,7 @@ function createAppShell() {
         <span class="tab-label">Home</span>
       </a>
       <a href="#/transactions" class="tab-item" data-route="transactions">
-        <span class="tab-icon" aria-hidden="true">☰</span>
+        <span class="tab-icon" aria-hidden="true"><svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="2" width="14" height="16" rx="2" stroke="currentColor"/><line x1="3" y1="5.5" x2="17" y2="5.5" stroke="currentColor" stroke-width="1" stroke-dasharray="1.5 1.2"/><line x1="6" y1="9.5" x2="14" y2="9.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="6" y1="12.5" x2="11" y2="12.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="6" y1="15.5" x2="14" y2="15.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
         <span class="tab-label">List</span>
       </a>
       <a href="#/reports" class="tab-item" data-route="reports">

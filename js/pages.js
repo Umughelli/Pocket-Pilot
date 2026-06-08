@@ -109,18 +109,20 @@ function renderTopbar(title, extra = '') {
   if (!topbar) return;
   topbar.innerHTML = `
     <h1 class="topbar-title">
-      <svg class="logo-icon-sm topbar-logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <linearGradient id="logo-bg-sm" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#006FDE"/>
-            <stop offset="100%" stop-color="#00225C"/>
-          </linearGradient>
-        </defs>
-        <rect width="40" height="40" rx="10" fill="url(#logo-bg-sm)"/>
-        <path d="M14 30V10h6.5a5 5 0 0 1 5 5v2a5 5 0 0 1-5 5H16"
-              stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M26 13l4 6-6 4" stroke="#009E9E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+      <a href="#/dashboard" aria-label="Pocket Pilot home">
+        <svg class="logo-icon-sm topbar-logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="logo-bg-sm" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#006FDE"/>
+              <stop offset="100%" stop-color="#00225C"/>
+            </linearGradient>
+          </defs>
+          <rect width="40" height="40" rx="10" fill="url(#logo-bg-sm)"/>
+          <path d="M14 30V10h6.5a5 5 0 0 1 5 5v2a5 5 0 0 1-5 5H16"
+                stroke="#fff" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M26 13l4 6-6 4" stroke="#009E9E" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
       ${title}
     </h1>
     <div class="topbar-actions">
@@ -421,7 +423,7 @@ function renderDashboard(container, expenses) {
 /* ───────── Transactions ───────── */
 
 function renderTransactions(container, expenses) {
-  renderTopbar('Transactions', '<button class="btn btn-primary btn-sm" id="topbar-add-btn">+ Add Expense</button>');
+  renderTopbar('Transactions');
 
   const filters = { search: '', category: '', sort: 'newest' };
   const wrapper = document.createElement('div');
@@ -441,7 +443,6 @@ function renderTransactions(container, expenses) {
 
   container.appendChild(wrapper);
 
-  document.getElementById('topbar-add-btn')?.addEventListener('click', () => openExpenseFormModal());
   renderTransactionList(wrapper, expenses, filters);
 }
 
