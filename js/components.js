@@ -484,7 +484,7 @@ export function renderCategoryPieChart(expenses) {
   const cx = size / 2;
   const cy = size / 2;
   const r = 90;
-  const innerR = 55;
+  const innerR = 70;
 
   let svgPaths = '';
   let startAngle = -90;
@@ -497,8 +497,11 @@ export function renderCategoryPieChart(expenses) {
     outer.setAttribute('cy', cy);
     outer.setAttribute('r', r);
     outer.setAttribute('fill', cat.color);
-    outer.setAttribute('stroke', 'var(--card-bg)');
+    outer.setAttribute('stroke', 'var(--bg-card)');
     outer.setAttribute('stroke-width', '2');
+    outer.setAttribute('role', 'graphics-symbol');
+    outer.setAttribute('aria-label', `${cat.name}: ${formatCurrency(total)} (100.0%)`);
+    outer.setAttribute('tabindex', '0');
     const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
     title.textContent = `${cat.name}: ${formatCurrency(total)} (100.0%)`;
     outer.appendChild(title);
@@ -508,7 +511,7 @@ export function renderCategoryPieChart(expenses) {
     inner.setAttribute('cx', cx);
     inner.setAttribute('cy', cy);
     inner.setAttribute('r', innerR);
-    inner.setAttribute('fill', 'var(--card-bg)');
+    inner.setAttribute('fill', 'var(--bg-card)');
     svgPaths += inner.outerHTML;
   } else {
     entries.forEach(([catId, amount]) => {
@@ -538,8 +541,11 @@ export function renderCategoryPieChart(expenses) {
 
       path.setAttribute('d', d);
       path.setAttribute('fill', cat.color);
-      path.setAttribute('stroke', 'var(--card-bg)');
+      path.setAttribute('stroke', 'var(--bg-card)');
       path.setAttribute('stroke-width', '2');
+      path.setAttribute('role', 'graphics-symbol');
+      path.setAttribute('aria-label', `${cat.name}: ${formatCurrency(amount)} (${((amount / total) * 100).toFixed(1)}%)`);
+      path.setAttribute('tabindex', '0');
 
       const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
       title.textContent = `${cat.name}: ${formatCurrency(amount)} (${((amount / total) * 100).toFixed(1)}%)`;
@@ -554,27 +560,41 @@ export function renderCategoryPieChart(expenses) {
   svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
   svg.setAttribute('width', size);
   svg.setAttribute('height', size);
+  svg.setAttribute('role', 'img');
   svg.setAttribute('aria-label', 'Expense breakdown by category');
-  svg.innerHTML = svgPaths;
+  const desc = document.createElementNS('http://www.w3.org/2000/svg', 'desc');
+  desc.textContent = `Pie chart showing ${entries.length} expense categor${entries.length === 1 ? 'y' : 'ies'}. Total: ${formatCurrency(total)}.`;
+  svg.appendChild(desc);
+  svg.innerHTML += svgPaths;
 
   const centerTextGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+  const totalTextStr = formatCurrency(total);
+  const textLen = totalTextStr.length;
+  const maxFontSize = 18;
+  const monospaceCharRatio = 0.58;
+  const padding = 22;
+  const availableWidth = 2 * (innerR - padding);
+  const fontSize = Math.max(8, Math.min(maxFontSize, Math.floor(availableWidth / (textLen * monospaceCharRatio))));
+  const labelFontSize = Math.max(9, Math.min(12, Math.round(fontSize * 0.6)));
+
   const totalText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
   totalText.setAttribute('x', cx);
-  totalText.setAttribute('y', cy - 8);
+  totalText.setAttribute('y', Math.round(cy - fontSize * 0.35));
   totalText.setAttribute('text-anchor', 'middle');
   totalText.setAttribute('fill', 'var(--text-primary)');
-  totalText.setAttribute('font-size', '18');
+  totalText.setAttribute('font-size', fontSize.toString());
   totalText.setAttribute('font-weight', '700');
-  totalText.setAttribute('font-family', "'JetBrains Mono', monospace");
-  totalText.textContent = formatCurrency(total);
+  totalText.setAttribute('font-family', "'Inter', sans-serif");
+  totalText.textContent = totalTextStr;
   centerTextGroup.appendChild(totalText);
 
   const totalLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
   totalLabel.setAttribute('x', cx);
-  totalLabel.setAttribute('y', cy + 16);
+  totalLabel.setAttribute('y', Math.round(cy + fontSize * 0.5));
   totalLabel.setAttribute('text-anchor', 'middle');
   totalLabel.setAttribute('fill', 'var(--text-secondary)');
-  totalLabel.setAttribute('font-size', '11');
+  totalLabel.setAttribute('font-size', labelFontSize.toString());
   totalLabel.textContent = 'Total';
   centerTextGroup.appendChild(totalLabel);
 
@@ -583,11 +603,14 @@ export function renderCategoryPieChart(expenses) {
 
   const legend = document.createElement('div');
   legend.className = 'chart-legend';
+  legend.setAttribute('role', 'list');
+  legend.setAttribute('aria-label', 'Expense categories');
   entries.forEach(([catId, amount]) => {
     const cat = categoryById(catId);
     const pct = ((amount / total) * 100).toFixed(1);
     const item = document.createElement('div');
     item.className = 'legend-item';
+    item.setAttribute('role', 'listitem');
     item.innerHTML = `
       <span class="legend-dot" style="--cat-color: ${cat.color}" aria-hidden="true"></span>
       <span class="legend-label">${cat.name}</span>
